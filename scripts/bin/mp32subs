@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [ "$#" -lt 1 ] || [ "$#" -gt 2 ]; then
+  echo "Uso: $0 archivo.mp3 [idioma=es|en|auto]" >&2
+  echo "  Genera archivo.srt desde MP3 usando Whisper."
+  exit 1
+fi
+
+INPUT="$1"
+IDioma="${2:-auto}"
+
+if [ ! -f "$INPUT" ]; then
+  echo "Error: $INPUT no existe." >&2
+  exit 1
+fi
+
+BASE="${INPUT%.*}"
+SRT_OUT="${BASE}.srt"
+
+echo "Generando subtítulos SRT para $INPUT..."
+echo "Idioma: ${IDioma} | Modelo: base (rápido/alta calidad)"
+
+if [ "$IDioma" = "auto" ]; then
+  whisper "$INPUT" --model base --output_format srt --output_dir ./
+else
+  whisper "$INPUT" --model base --language "$IDioma" --output_format srt --output_dir ./
+fi
+
+if [ -f "$SRT_OUT" ]; then
+  echo "¡Listo! Subtítulos generados: $SRT_OUT"
+  open "$SRT_OUT"  # Abre en TextEdit por defecto
+else
+  echo "Error: No se generó $SRT_OUT" >&2
+  exit 1
+fi

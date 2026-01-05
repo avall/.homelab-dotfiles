@@ -1,0 +1,38 @@
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[colors.cursor]
+cursor = "#949dd0"
+text = "#949dd0"
+
+[colors.primary]
+background = "#0c0b0b"
+foreground = "#c7c7c7"
+
+[colors.bright]
+black = "#656565"
+red = "#ad5ff6"
+green = "#885cf6"
+yellow = "#6177f6"
+blue = "#6177f6"
+magenta = "#6ea0f7"
+cyan = "#77c5f9"
+white = "#feffff"
+
+[colors.normal]
+black = "#121212"
+red = "#9b5ed4"
+green = "#885cf6"
+yellow = "#6177f6"
+blue = "#6474d4"
+magenta = "#4381f6"
+cyan = "#5ab6f8"
+white = "#f0f0f0"
+
+[colors.selection]
+background = "#6474d4"
+foreground = "#cccccc"
+
+[colors.search]
+focused_match = { foreground = "#ffffff", background = "#bd4858" }
+matches = { foreground = "#181818", background = "#f4bf75" }

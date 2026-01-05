@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [ "$#" -ne 1 ]; then
+  echo "Uso: $0 archivo.mkv" >&2
+  exit 1
+fi
+
+INPUT="$1"
+
+# Obtener IDs de pistas de audio con mkvmerge -i
+# Formato típico: "Track ID 1: audio (A_AC3)"
+AUDIO_TRACK_IDS=($(mkvmerge -i "$INPUT" \
+  | awk -F' ' '/audio/ {print $3}' \
+  | tr -d ':'))
+
+if [ "${#AUDIO_TRACK_IDS[@]}" -eq 0 ]; then
+  echo "No se han encontrado pistas de audio en $INPUT" >&2
+  exit 1
+fi
+
+idx=1
+TMP_DIR="$(mktemp -d)"
+
+cleanup() {
+  rm -rf "$TMP_DIR"
+}
+trap cleanup EXIT
+
+for tid in "${AUDIO_TRACK_IDS[@]}"; do
+  RAW_OUT="$TMP_DIR/audio_${idx}.raw"
+
+  echo "Extrayendo pista de audio ID $tid -> $RAW_OUT"
+  mkvextract tracks "$INPUT" "${tid}:${RAW_OUT}"
+
+  OUT_MP3="audio_${idx}.mp3"
+  echo "Convirtiendo $RAW_OUT -> $OUT_MP3"
+  ffmpeg -y -i "$RAW_OUT" -vn -acodec libmp3lame -qscale:a 2 "$OUT_MP3"
+
+  idx=$((idx + 1))
+done
+
+echo "Listo. Pistas de audio convertidas a MP3 como audio_1.mp3, audio_2.mp3, ..."
+

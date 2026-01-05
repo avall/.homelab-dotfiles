@@ -1,0 +1,7 @@
+version,allow
+java11,true
+java17,true
+python3.9,true
+python3.11,true
+python3.12,true
+nodejs18.x,true

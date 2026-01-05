@@ -1,0 +1,80 @@
+format = """\
+[┌─ ](#5e6dc7)\
+[󰀵 ](fg:#5e6dc7)\
+$time\
+$directory\
+$git_branch\
+$git_status\
+$git_state\
+$git_metrics\
+[\n└─> ](#5e6dc7)\
+"""
+
+[directory]
+format = "[ \uE5FE $path ]($style)"
+style = "fg:#8fd5ff"
+truncation_length = 0
+truncation_symbol = '……/'
+
+[git_branch]
+format = '[ $symbol $branch(:$remote_branch) ]($style)'
+symbol = "  "
+style = "fg:#FFBD59"
+
+[git_status]
+format ='([\[$all_status $ahead_behind\]]($style))'
+conflicted = "="
+ahead =	"⇡${count} "
+behind = "⇣${count} "
+diverged = "⇕⇡${ahead_count}⇣${behind_count}"
+untracked = "?${count} "
+stashed = "$${count} "
+modified = "!${count} "
+staged = "+${count} "
+renamed = "»${count} "
+deleted = "✘${count} "
+style = "fg:#FFBD59"
+
+[git_metrics]
+format = "([+$added]($added_style))([-$deleted]($deleted_style))"
+added_style = "fg:#FFBD59"
+deleted_style = "bright-red"
+disabled = false
+
+[git_state]
+rebase = "REBASING"
+merge =	"MERGING"
+revert = "REVERTING"
+cherry_pick = "CHERRY-PICKING"
+bisect = "BISECTING"
+am = "AM"
+am_or_rebase = "AM/REBASE"
+style =	"bold yellow"
+format = '\([$state( $progress_current/$progress_total)]($style)\) '
+disabled = false
+
+
+[hg_branch]
+format = "[ $symbol$branch ]($style)"
+symbol = " "
+
+[cmd_duration]
+format = "[  $duration ]($style)"
+style = "fg:bright-white"
+
+[character]
+success_symbol = "└─>"
+error_symbol = "└─>"
+# ╭╴ ╰─
+
+[env_var]
+symbol = "╭╴"
+variable = 'SHELL'
+format = "$symbol"
+disabled = false
+
+[time]
+disabled = false
+time_format = "%R" # Hour:Minute Format
+style = ""
+format = '[[ 󱑍 $time ](fg:#8DFBD2)]($style)'

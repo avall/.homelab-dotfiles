@@ -24,11 +24,21 @@ yabai -m config mouse_action2 resize
 
 yabai -m config mouse_drop_action swap
 
+# Priorizar splits verticales para maximizar alturas
+yabai -m config split_type vertical
+
+# Desactivar auto-balance para preservar alturas manuales
+yabai -m config auto_balance on
+
+# Ratio de split conservador (nuevo ventana toma ~60% width)
+yabai -m config split_ratio 0.6
+
+
 yabai -m rule --add app="^System Settings$" sub-layer=above manage=off
 yabai -m rule --add app="^Calculator$" manage=off
 yabai -m rule --add app="^Karabiner-Elements$" manage=off
-
 yabai -m rule --add app="^Hammerspoon$" manage=off
 yabai -m rule --add app="^Alacritty$" manage=off
+yabai -m rule --add app="^Ice$" manage=off
 
 # yabai -m config external_bar all:32:0
